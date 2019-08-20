@@ -12,7 +12,7 @@ public class EmployeeRepository {
 
     public void saveEmployee(final Employee employee) {
         employeeIdCount++;
-        employees.put(employee.getEmployeeId(), employee);
+        employees.put(employee.getId(), employee);
     }
 
     public Employee getEmployee(final Long id) {
@@ -24,7 +24,7 @@ public class EmployeeRepository {
     }
 
     public Employee updateEmployee(final Employee employee) {
-        return employees.replace(employee.getEmployeeId(), employee);
+        return employees.replace(employee.getId(), employee);
     }
 
     public Employee deleteEmployee(final Long id) {

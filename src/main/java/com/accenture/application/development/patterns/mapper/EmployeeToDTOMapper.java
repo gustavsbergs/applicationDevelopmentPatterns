@@ -8,7 +8,7 @@ public class EmployeeToDTOMapper {
     public EmployeeDTO map(final Employee employee) {
         final EmployeeDTO employeeDTO = new EmployeeDTO();
         if (employee != null) {
-            employeeDTO.setEmployeeId(employee.getEmployeeId())
+            employeeDTO.setEmployeeId(employee.getId())
                     .setLevel(employee.getLevel())
                     .setName(employee.getName())
                     .setSurname(employee.getSurname())

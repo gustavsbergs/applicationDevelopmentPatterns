@@ -3,7 +3,7 @@ package main.java.com.accenture.application.development.patterns.facade.impl;
 import main.java.com.accenture.application.development.patterns.domain.Employee;
 import main.java.com.accenture.application.development.patterns.dto.EmployeeDTO;
 import main.java.com.accenture.application.development.patterns.facade.EmployeeManagementFacade;
-import main.java.com.accenture.application.development.patterns.factory.EmployeeFactory;
+import main.java.com.accenture.application.development.patterns.factory.impl.EmployeeFactory;
 import main.java.com.accenture.application.development.patterns.mapper.DTOToEmployeeMapper;
 import main.java.com.accenture.application.development.patterns.mapper.EmployeeToDTOMapper;
 import main.java.com.accenture.application.development.patterns.repository.EmployeeRepository;
@@ -31,7 +31,7 @@ public class EmployeeManagementFacadeImpl implements EmployeeManagementFacade {
 
     @Override
     public Employee createEmployee() {
-        final Employee employee = factory.createEmployee(repository.getAmountOfEmployees());
+        final Employee employee = factory.create(repository.getAmountOfEmployees());
         repository.saveEmployee(employee);
         return employee;
     }

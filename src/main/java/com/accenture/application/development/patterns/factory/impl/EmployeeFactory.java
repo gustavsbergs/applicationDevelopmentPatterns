@@ -1,17 +1,18 @@
-package main.java.com.accenture.application.development.patterns.factory;
+package main.java.com.accenture.application.development.patterns.factory.impl;
 
 import main.java.com.accenture.application.development.patterns.constants.Names;
 import main.java.com.accenture.application.development.patterns.constants.Positions;
 import main.java.com.accenture.application.development.patterns.constants.Seniority;
 import main.java.com.accenture.application.development.patterns.constants.Surnames;
 import main.java.com.accenture.application.development.patterns.domain.Employee;
+import main.java.com.accenture.application.development.patterns.factory.Factory;
 import main.java.com.accenture.application.development.patterns.util.RandomNumberGenerator;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-public class EmployeeFactory {
+public class EmployeeFactory implements Factory {
 
     private SalaryCalculator salaryCalculator;
     private Names names;
@@ -24,13 +25,12 @@ public class EmployeeFactory {
         this.surnames = surnames;
     }
 
-    public Employee createEmployee(final Integer amountOfEmployees) {
+    public Employee create(final Integer amountOfEmployees) {
         final Employee employee = new Employee()
-                .setEmployeeId(amountOfEmployees.longValue() + 1L)
+                .setId(amountOfEmployees.longValue() + 1L)
                 .setName(generateRandomName())
                 .setSurname(generateRandomSurname())
                 .setPosition(generateRandomPosition());
-
         employee.setLevel((employee.getPosition() == Positions.DIRECTOR || employee.getPosition() == Positions.EXECUTIVE_MANAGER)
                 ? generateRandomSeniorityExecutiveDirector() : generateRandomSeniorityManagerStaff())
                 .setSalary(salaryCalculator.calculateSalary(employee.getLevel(), employee.getPosition()));

@@ -14,7 +14,7 @@ public class DTOToEmployeeMapper {
                     .setPosition(dto.getPosition())
                     .setName(dto.getName())
                     .setSurname(dto.getSurname())
-                    .setEmployeeId(dto.getEmployeeId());
+                    .setId(dto.getEmployeeId());
         }
         return employee;
     }
