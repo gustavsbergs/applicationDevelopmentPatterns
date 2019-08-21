@@ -1,46 +1,112 @@
 package main.java.com.accenture.application.development.patterns.handlers.impl;
 
+import main.java.com.accenture.application.development.patterns.constants.Positions;
 import main.java.com.accenture.application.development.patterns.constants.RequestTypes;
+import main.java.com.accenture.application.development.patterns.constants.Seniority;
+import main.java.com.accenture.application.development.patterns.domain.Employee;
 import main.java.com.accenture.application.development.patterns.dto.EmployeeDTO;
 import main.java.com.accenture.application.development.patterns.facade.EmployeeManagementFacade;
-import main.java.com.accenture.application.development.patterns.factory.impl.EmployeeFactory;
+import main.java.com.accenture.application.development.patterns.factory.EntityFactory;
 import main.java.com.accenture.application.development.patterns.handlers.RequestHandler;
+import main.java.com.accenture.application.development.patterns.handlers.impl.Iterators.EmployeeByLevelSorter;
+import main.java.com.accenture.application.development.patterns.handlers.impl.Iterators.EmployeeByPositionSorter;
+import main.java.com.accenture.application.development.patterns.handlers.impl.Iterators.EmployeeSorter;
+import main.java.com.accenture.application.development.patterns.mapper.DTOToEmployeeMapper;
 import main.java.com.accenture.application.development.patterns.mapper.EmployeeToDTOMapper;
 
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
+
+import static java.util.Objects.requireNonNull;
 
 public class ViewAllRequestHandler implements RequestHandler {
 
     private EmployeeManagementFacade facade;
-    private EmployeeFactory factory;
-    private EmployeeToDTOMapper mapper;
+    private EntityFactory factory;
+    private EmployeeToDTOMapper mapperToDTO;
     private boolean fullyRandomMode;
+    private Scanner userInput = new Scanner(System.in);
+    private EmployeeSorter sorter;
 
-    public ViewAllRequestHandler(final EmployeeManagementFacade facade, final EmployeeFactory factory, final EmployeeToDTOMapper mapper, final boolean fullyRandomMode) {
+    ViewAllRequestHandler(final EmployeeManagementFacade facade, final EntityFactory factory, final EmployeeToDTOMapper mapperToDTO, final boolean fullyRandomMode) {
         this.facade = facade;
         this.factory = factory;
-        this.mapper = mapper;
+        this.mapperToDTO = mapperToDTO;
         this.fullyRandomMode = fullyRandomMode;
     }
 
     @Override
     public void handleRequest(final RequestTypes type) throws InterruptedException {
-        if(type == RequestTypes.VIEW_ALL) {
-            final Map<Long, EmployeeDTO> employees = facade.getAllEmployees();
-            System.out.println();
-            System.out.println("Populating employees list. Please wait...");
-            TimeUnit.SECONDS.sleep(2);
-            createTopRow();
-            employees.forEach((id, employee) -> createEmployeeRow(employee));
-            createBottomRow();
-            TimeUnit.SECONDS.sleep(2);
+        if (type == RequestTypes.VIEW_ALL) {
+            boolean processRunning = true;
+            do {
+                System.out.println("Do you want to sort employees by position or level? 1. Yes 2. No");
+                final Integer choice = userInput.nextInt();
+                if (choice == 2) {
+                    final Map<Long,EmployeeDTO> employees = facade.getAllEmployees();
+                    showEmployeeList(employees);
+                    processRunning = false;
+                } else if (choice == 1) {
+                    System.out.println("Which criteria do you want to search by? 1.Position 2.Level");
+                    final Integer searchChoice = userInput.nextInt();
+
+                    if(searchChoice == 1){
+                        System.out.println("Pick position to search by. 1. Executive_manager 2. Director 3.Manager 4. Staff");
+                        final Integer positionChoice = userInput.nextInt();
+                        showEmployeeListByPosition(positionChoice);
+                        processRunning = false;
+                    } else if (searchChoice == 2){
+                        System.out.println("Pick level to search by. 1. Associate 2.Intermediate 3.Senior");
+                        final Integer levelChoice = userInput.nextInt();
+                        showEmployeeListByLevel(levelChoice);
+                        processRunning = false;
+                    } else {
+                        System.out.println("Invalid input. Try again.");
+                    }
+                } else {
+                    System.out.println("Invalid input. Try again.");
+                }
+            } while(processRunning);
+
         } else {
-            RequestHandler nextHandler = new DeleteRequestHandler(facade, fullyRandomMode, mapper, factory);
+            final RequestHandler nextHandler = new DeleteRequestHandler(facade, fullyRandomMode, mapperToDTO, factory);
             nextHandler.handleRequest(type);
         }
     }
 
+    private void showEmployeeListByPosition(Integer positionChoice) throws InterruptedException {
+        final Map<Integer, Positions> choices = new HashMap<>();
+        choices.put(1, Positions.EXECUTIVE_MANAGER);
+        choices.put(2, Positions.DIRECTOR);
+        choices.put(3, Positions.MANAGER);
+        choices.put(4, Positions.STAFF);
+        final Map<Long, EmployeeDTO> employeesToSort = facade.getAllEmployees();
+        sorter = new EmployeeByPositionSorter();
+        showEmployeeList(requireNonNull(sorter.sortEmployees(employeesToSort, choices.get(positionChoice), null)));
+    }
+
+    private void showEmployeeListByLevel(Integer levelChoice) throws InterruptedException {
+        final Map<Integer, Seniority> choices = new HashMap<>();
+        choices.put(1, Seniority.ASSOCIATE);
+        choices.put(2, Seniority.INTERMEDIATE);
+        choices.put(3, Seniority.SENIOR);
+        final Map<Long, EmployeeDTO> employeesToSort = facade.getAllEmployees();
+        sorter = new EmployeeByLevelSorter();
+        showEmployeeList(requireNonNull(sorter.sortEmployees(employeesToSort, null, choices.get(levelChoice))));
+    }
+
+    private void showEmployeeList(Map<Long, EmployeeDTO> employees) throws InterruptedException {
+        System.out.println();
+        System.out.println("Populating employees list. Please wait...");
+        TimeUnit.SECONDS.sleep(2);
+        createTopRow();
+        employees.forEach((id, employee) -> createEmployeeRow(employee));
+        createBottomRow();
+        TimeUnit.SECONDS.sleep(2);
+    }
     private void createEmployeeRow(EmployeeDTO employee) {
         System.out.println("  " + employee.getEmployeeId() + "    " + employee.getName() + "    " + employee.getSurname() + "    " + employee.getPosition() + "   " + employee.getLevel() + "   " + employee.getSalary());
     }

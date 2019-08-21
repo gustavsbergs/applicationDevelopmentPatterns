@@ -1,4 +1,4 @@
-package main.java.com.accenture.application.development.patterns.factory.impl;
+package main.java.com.accenture.application.development.patterns.factory;
 
 import main.java.com.accenture.application.development.patterns.constants.Positions;
 import main.java.com.accenture.application.development.patterns.constants.Seniority;

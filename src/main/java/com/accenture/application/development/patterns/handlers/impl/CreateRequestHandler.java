@@ -3,7 +3,7 @@ package main.java.com.accenture.application.development.patterns.handlers.impl;
 import main.java.com.accenture.application.development.patterns.constants.RequestTypes;
 import main.java.com.accenture.application.development.patterns.domain.Employee;
 import main.java.com.accenture.application.development.patterns.facade.EmployeeManagementFacade;
-import main.java.com.accenture.application.development.patterns.factory.impl.EmployeeFactory;
+import main.java.com.accenture.application.development.patterns.factory.EntityFactory;
 import main.java.com.accenture.application.development.patterns.handlers.RequestHandler;
 import main.java.com.accenture.application.development.patterns.mapper.EmployeeToDTOMapper;
 
@@ -13,10 +13,10 @@ public class CreateRequestHandler implements RequestHandler {
 
     private EmployeeManagementFacade facade;
     private boolean trueRandomMode;
-    private EmployeeFactory factory;
+    private EntityFactory factory;
     private EmployeeToDTOMapper mapper;
 
-    public CreateRequestHandler(final EmployeeManagementFacade facade, final boolean trueRandomMode, final EmployeeFactory factory, final EmployeeToDTOMapper mapper) {
+    public CreateRequestHandler(final EmployeeManagementFacade facade, final boolean trueRandomMode, final EntityFactory factory, final EmployeeToDTOMapper mapper) {
         this.facade = facade;
         this.trueRandomMode = trueRandomMode;
         this.factory = factory;
@@ -25,10 +25,10 @@ public class CreateRequestHandler implements RequestHandler {
 
     @Override
     public void handleRequest(final RequestTypes type) throws InterruptedException {
-        if(type == RequestTypes.CREATE) {
+        if (type == RequestTypes.CREATE) {
             System.out.println("#### Creating a new employee. Please wait...");
             TimeUnit.SECONDS.sleep(2);
-            final Employee createdEmployee = facade.createEmployee();
+            final Employee createdEmployee = (Employee) facade.createEmployee();
             System.out.println();
             System.out.println("#### Employee created! INFO:");
             System.out.println("#### Name: " + createdEmployee.getName());

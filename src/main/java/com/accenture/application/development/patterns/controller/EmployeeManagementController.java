@@ -5,8 +5,9 @@ import main.java.com.accenture.application.development.patterns.constants.Reques
 import main.java.com.accenture.application.development.patterns.constants.Surnames;
 import main.java.com.accenture.application.development.patterns.facade.EmployeeManagementFacade;
 import main.java.com.accenture.application.development.patterns.facade.impl.EmployeeManagementFacadeImpl;
-import main.java.com.accenture.application.development.patterns.factory.impl.EmployeeFactory;
-import main.java.com.accenture.application.development.patterns.factory.impl.SalaryCalculator;
+import main.java.com.accenture.application.development.patterns.factory.EmployeeFactory;
+import main.java.com.accenture.application.development.patterns.factory.EntityFactory;
+import main.java.com.accenture.application.development.patterns.factory.SalaryCalculator;
 import main.java.com.accenture.application.development.patterns.handlers.RequestHandler;
 import main.java.com.accenture.application.development.patterns.handlers.impl.*;
 import main.java.com.accenture.application.development.patterns.mapper.DTOToEmployeeMapper;
@@ -26,7 +27,7 @@ public class EmployeeManagementController {
     private final Names names = new Names();
     private final Surnames surnames = new Surnames();
     private final SalaryCalculator calculator = new SalaryCalculator();
-    private final EmployeeFactory factory = new EmployeeFactory(calculator, names, surnames);
+    private final EntityFactory factory = new EntityFactory(names, surnames, calculator);
     private final EmployeeToDTOMapper mapperToDTO = new EmployeeToDTOMapper();
     private final DTOToEmployeeMapper mapperToEmployee = new DTOToEmployeeMapper();
     private final RandomNumberGenerator randomNumberGenerator = new RandomNumberGenerator();

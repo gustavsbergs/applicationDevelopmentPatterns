@@ -1,18 +1,17 @@
-package main.java.com.accenture.application.development.patterns.factory.impl;
+package main.java.com.accenture.application.development.patterns.factory;
 
 import main.java.com.accenture.application.development.patterns.constants.Names;
 import main.java.com.accenture.application.development.patterns.constants.Positions;
 import main.java.com.accenture.application.development.patterns.constants.Seniority;
 import main.java.com.accenture.application.development.patterns.constants.Surnames;
 import main.java.com.accenture.application.development.patterns.domain.Employee;
-import main.java.com.accenture.application.development.patterns.factory.Factory;
 import main.java.com.accenture.application.development.patterns.util.RandomNumberGenerator;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-public class EmployeeFactory implements Factory {
+public class EmployeeFactory {
 
     private SalaryCalculator salaryCalculator;
     private Names names;

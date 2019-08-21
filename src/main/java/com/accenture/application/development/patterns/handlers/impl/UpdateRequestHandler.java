@@ -1,9 +1,10 @@
 package main.java.com.accenture.application.development.patterns.handlers.impl;
 
 import main.java.com.accenture.application.development.patterns.constants.RequestTypes;
+import main.java.com.accenture.application.development.patterns.domain.Employee;
 import main.java.com.accenture.application.development.patterns.dto.EmployeeDTO;
 import main.java.com.accenture.application.development.patterns.facade.EmployeeManagementFacade;
-import main.java.com.accenture.application.development.patterns.factory.impl.EmployeeFactory;
+import main.java.com.accenture.application.development.patterns.factory.EntityFactory;
 import main.java.com.accenture.application.development.patterns.handlers.RequestHandler;
 import main.java.com.accenture.application.development.patterns.mapper.EmployeeToDTOMapper;
 import main.java.com.accenture.application.development.patterns.util.RandomNumberGenerator;
@@ -16,12 +17,12 @@ public class UpdateRequestHandler implements RequestHandler {
 
     private boolean fullyRandomMode;
     private EmployeeManagementFacade facade;
-    private EmployeeFactory factory;
+    private EntityFactory factory;
     private Scanner input = new Scanner(System.in);
     private EmployeeToDTOMapper mapper;
     private RandomNumberGenerator randomNumberGenerator = new RandomNumberGenerator();
 
-    public UpdateRequestHandler(final EmployeeManagementFacade facade, final EmployeeFactory factory, final boolean fullyRandomMode, final EmployeeToDTOMapper mapper) {
+    UpdateRequestHandler(final EmployeeManagementFacade facade, final EntityFactory factory, final boolean fullyRandomMode, final EmployeeToDTOMapper mapper) {
         this.facade = facade;
         this.factory = factory;
         this.fullyRandomMode = fullyRandomMode;
@@ -30,7 +31,7 @@ public class UpdateRequestHandler implements RequestHandler {
 
     @Override
     public void handleRequest(final RequestTypes type) throws InterruptedException {
-        if(type == RequestTypes.UPDATE) {
+        if (type == RequestTypes.UPDATE) {
             final Long id = getId();
             if (id == 0) {
                 System.out.println();
@@ -47,14 +48,14 @@ public class UpdateRequestHandler implements RequestHandler {
                 }
                 updateEmployee(employeeToUpdate);
             }
-        } else{
+        } else {
             System.out.println("Invalid request type. Try again.");
         }
     }
 
     private Long getId() throws InterruptedException {
         if (fullyRandomMode) {
-            if(facade.amountOfEmployees() == 0){
+            if (facade.amountOfEmployees() == 0) {
                 return 0L;
             }
             return randomNumberGenerator.generate(facade.amountOfEmployees()).longValue();
@@ -73,7 +74,7 @@ public class UpdateRequestHandler implements RequestHandler {
     }
 
     private void updateEmployee(EmployeeDTO employeeToUpdate) throws InterruptedException {
-        final EmployeeDTO updatedEmployee = mapper.map(factory.create(0));
+        final EmployeeDTO updatedEmployee = mapper.map((Employee) factory.createEntity("Employee", 0));
         updatedEmployee.setEmployeeId(employeeToUpdate.getEmployeeId());
         System.out.println();
         System.out.println("Updating employee. Please wait...");

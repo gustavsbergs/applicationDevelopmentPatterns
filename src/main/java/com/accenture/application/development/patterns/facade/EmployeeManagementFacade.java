@@ -1,21 +1,25 @@
 package main.java.com.accenture.application.development.patterns.facade;
 
 import main.java.com.accenture.application.development.patterns.domain.Employee;
+import main.java.com.accenture.application.development.patterns.domain.Entity;
 import main.java.com.accenture.application.development.patterns.dto.EmployeeDTO;
 
 import java.util.Map;
 
+/**
+ *
+ * */
 public interface EmployeeManagementFacade {
 
-    Employee createEmployee();
+    Entity createEmployee();
 
     EmployeeDTO getEmployee(Long id);
 
     Map<Long, EmployeeDTO> getAllEmployees();
 
-    Employee deleteEmployee(Long id);
+    Entity deleteEmployee(Long id);
 
-    Employee updateEmployee(EmployeeDTO employee);
+    Entity updateEmployee(EmployeeDTO employee);
 
     Integer amountOfEmployees();
 }

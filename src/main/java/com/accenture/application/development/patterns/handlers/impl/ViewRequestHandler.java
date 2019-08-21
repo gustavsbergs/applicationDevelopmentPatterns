@@ -3,7 +3,7 @@ package main.java.com.accenture.application.development.patterns.handlers.impl;
 import main.java.com.accenture.application.development.patterns.constants.RequestTypes;
 import main.java.com.accenture.application.development.patterns.dto.EmployeeDTO;
 import main.java.com.accenture.application.development.patterns.facade.EmployeeManagementFacade;
-import main.java.com.accenture.application.development.patterns.factory.impl.EmployeeFactory;
+import main.java.com.accenture.application.development.patterns.factory.EntityFactory;
 import main.java.com.accenture.application.development.patterns.handlers.RequestHandler;
 import main.java.com.accenture.application.development.patterns.mapper.EmployeeToDTOMapper;
 import main.java.com.accenture.application.development.patterns.util.RandomNumberGenerator;
@@ -18,10 +18,10 @@ public class ViewRequestHandler implements RequestHandler {
     private Scanner input = new Scanner(System.in);
     private EmployeeManagementFacade facade;
     private EmployeeToDTOMapper mapper;
-    private EmployeeFactory factory;
+    private EntityFactory factory;
     private RandomNumberGenerator randomNumberGenerator = new RandomNumberGenerator();
 
-    public ViewRequestHandler(final EmployeeManagementFacade facade, final boolean fullyRandomMode, final EmployeeToDTOMapper mapper, final EmployeeFactory factory) {
+    ViewRequestHandler(final EmployeeManagementFacade facade, final boolean fullyRandomMode, final EmployeeToDTOMapper mapper, final EntityFactory factory) {
         this.facade = facade;
         this.fullyRandomMode = fullyRandomMode;
         this.mapper = mapper;

@@ -3,7 +3,7 @@ package main.java.com.accenture.application.development.patterns.handlers.impl;
 import main.java.com.accenture.application.development.patterns.constants.RequestTypes;
 import main.java.com.accenture.application.development.patterns.dto.EmployeeDTO;
 import main.java.com.accenture.application.development.patterns.facade.EmployeeManagementFacade;
-import main.java.com.accenture.application.development.patterns.factory.impl.EmployeeFactory;
+import main.java.com.accenture.application.development.patterns.factory.EntityFactory;
 import main.java.com.accenture.application.development.patterns.handlers.RequestHandler;
 import main.java.com.accenture.application.development.patterns.mapper.EmployeeToDTOMapper;
 import main.java.com.accenture.application.development.patterns.util.RandomNumberGenerator;
@@ -20,10 +20,10 @@ public class DeleteRequestHandler implements RequestHandler {
     private EmployeeManagementFacade facade;
     private RandomNumberGenerator randomNumberGenerator = new RandomNumberGenerator();
     private EmployeeToDTOMapper mapper;
-    private EmployeeFactory factory;
+    private EntityFactory factory;
 
 
-    public DeleteRequestHandler(final EmployeeManagementFacade facade, final boolean fullyRandomMode, final EmployeeToDTOMapper mapper, final EmployeeFactory factory) {
+    DeleteRequestHandler(final EmployeeManagementFacade facade, final boolean fullyRandomMode, final EmployeeToDTOMapper mapper, final EntityFactory factory) {
         this.facade = facade;
         this.fullyRandomMode = fullyRandomMode;
         this.factory = factory;
@@ -58,7 +58,7 @@ public class DeleteRequestHandler implements RequestHandler {
                 TimeUnit.SECONDS.sleep(2);
             }
         } else {
-            RequestHandler nexthandler = new UpdateRequestHandler(facade, factory, fullyRandomMode, mapper);
+            final RequestHandler nexthandler = new UpdateRequestHandler(facade, factory, fullyRandomMode, mapper);
             nexthandler.handleRequest(type);
         }
     }

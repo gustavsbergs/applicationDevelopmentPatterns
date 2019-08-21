@@ -1,6 +1,7 @@
 package main.java.com.accenture.application.development.patterns.mapper;
 
 import main.java.com.accenture.application.development.patterns.domain.Employee;
+import main.java.com.accenture.application.development.patterns.domain.Entity;
 import main.java.com.accenture.application.development.patterns.dto.EmployeeDTO;
 
 public class EmployeeToDTOMapper {
