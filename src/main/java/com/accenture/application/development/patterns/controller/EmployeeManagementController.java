@@ -5,11 +5,10 @@ import main.java.com.accenture.application.development.patterns.constants.Reques
 import main.java.com.accenture.application.development.patterns.constants.Surnames;
 import main.java.com.accenture.application.development.patterns.facade.EmployeeManagementFacade;
 import main.java.com.accenture.application.development.patterns.facade.impl.EmployeeManagementFacadeImpl;
-import main.java.com.accenture.application.development.patterns.factory.EmployeeFactory;
 import main.java.com.accenture.application.development.patterns.factory.EntityFactory;
 import main.java.com.accenture.application.development.patterns.factory.SalaryCalculator;
 import main.java.com.accenture.application.development.patterns.handlers.RequestHandler;
-import main.java.com.accenture.application.development.patterns.handlers.impl.*;
+import main.java.com.accenture.application.development.patterns.handlers.impl.CreateRequestHandler;
 import main.java.com.accenture.application.development.patterns.mapper.DTOToEmployeeMapper;
 import main.java.com.accenture.application.development.patterns.mapper.EmployeeToDTOMapper;
 import main.java.com.accenture.application.development.patterns.repository.EmployeeRepository;
@@ -21,7 +20,10 @@ import java.util.concurrent.TimeUnit;
 
 public class EmployeeManagementController {
 
-    private boolean fullyRandomMode = false;
+    //Controls the flow of the application
+    //If set to true, then all the user input will be randomly generated
+    //If set to false, then only some user input will be randomly generated
+    private boolean fullyRandomMode = true;
 
     private final EmployeeRepository repository = new EmployeeRepository();
     private final Names names = new Names();
@@ -35,7 +37,7 @@ public class EmployeeManagementController {
 
     private Scanner userInput = new Scanner(System.in);
     private EmployeeManagementFacade managementFacade = new EmployeeManagementFacadeImpl(repository, factory, mapperToDTO, mapperToEmployee);
-    private RequestHandler handler = new CreateRequestHandler(managementFacade, fullyRandomMode, factory, mapperToDTO);;
+    private RequestHandler handler = new CreateRequestHandler(managementFacade, fullyRandomMode, factory, mapperToDTO);
 
     public void loadUserInterface() {
         System.out.println("#################################################################");

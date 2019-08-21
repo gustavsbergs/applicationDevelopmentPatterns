@@ -4,7 +4,6 @@ import main.java.com.accenture.application.development.patterns.domain.Employee;
 import main.java.com.accenture.application.development.patterns.domain.Entity;
 import main.java.com.accenture.application.development.patterns.dto.EmployeeDTO;
 import main.java.com.accenture.application.development.patterns.facade.EmployeeManagementFacade;
-import main.java.com.accenture.application.development.patterns.factory.EmployeeFactory;
 import main.java.com.accenture.application.development.patterns.factory.EntityFactory;
 import main.java.com.accenture.application.development.patterns.mapper.DTOToEmployeeMapper;
 import main.java.com.accenture.application.development.patterns.mapper.EmployeeToDTOMapper;
@@ -41,7 +40,7 @@ public class EmployeeManagementFacadeImpl implements EmployeeManagementFacade {
     @Override
     public EmployeeDTO getEmployee(final Long id) {
         final Employee returnedEmployee = repository.getEmployee(id);
-        if(returnedEmployee == null){
+        if (returnedEmployee == null) {
             return null;
         }
         return employeeToDTOMapper.map(returnedEmployee);

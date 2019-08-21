@@ -7,7 +7,6 @@ public class DTOToEmployeeMapper {
 
     public Employee map(final EmployeeDTO dto) {
         Employee employee = new Employee();
-
         if (dto != null) {
             employee.setSalary(dto.getSalary())
                     .setLevel(dto.getLevel())

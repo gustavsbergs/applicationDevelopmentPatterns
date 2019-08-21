@@ -29,7 +29,7 @@ public class SalaryCalculator {
         }});
     }};
 
-    public Double calculateSalary(final Seniority seniority, final Positions position) {
+    Double calculateSalary(final Seniority seniority, final Positions position) {
         return SALARY_LEVELS.get(position).get(seniority);
     }
 

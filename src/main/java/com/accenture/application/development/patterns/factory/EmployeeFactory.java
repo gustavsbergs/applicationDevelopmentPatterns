@@ -11,20 +11,20 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-public class EmployeeFactory {
+class EmployeeFactory {
 
     private SalaryCalculator salaryCalculator;
     private Names names;
     private Surnames surnames;
     private RandomNumberGenerator randomNumberGenerator = new RandomNumberGenerator();
 
-    public EmployeeFactory(final SalaryCalculator salaryCalculator, final Names names, final Surnames surnames) {
+    EmployeeFactory(final SalaryCalculator salaryCalculator, final Names names, final Surnames surnames) {
         this.salaryCalculator = salaryCalculator;
         this.names = names;
         this.surnames = surnames;
     }
 
-    public Employee create(final Integer amountOfEmployees) {
+    Employee create(final Integer amountOfEmployees) {
         final Employee employee = new Employee()
                 .setId(amountOfEmployees.longValue() + 1L)
                 .setName(generateRandomName())
@@ -38,24 +38,24 @@ public class EmployeeFactory {
 
     private Seniority generateRandomSeniorityExecutiveDirector() {
         final List<Seniority> seniorities = Collections.unmodifiableList(Arrays.asList(Seniority.ASSOCIATE, Seniority.SENIOR));
-        return seniorities.get(randomNumberGenerator.generate(seniorities.size()) -1);
+        return seniorities.get(randomNumberGenerator.generate(seniorities.size()) - 1);
     }
 
     private Seniority generateRandomSeniorityManagerStaff() {
         final List<Seniority> seniorities = Collections.unmodifiableList(Arrays.asList(Seniority.values()));
-        return seniorities.get(randomNumberGenerator.generate(seniorities.size()) -1);
+        return seniorities.get(randomNumberGenerator.generate(seniorities.size()) - 1);
     }
 
     private Positions generateRandomPosition() {
         final List<Positions> positions = Collections.unmodifiableList(Arrays.asList(Positions.values()));
-        return positions.get(randomNumberGenerator.generate(positions.size()) -1);
+        return positions.get(randomNumberGenerator.generate(positions.size()) - 1);
     }
 
     private String generateRandomSurname() {
-        return surnames.getName(randomNumberGenerator.generate(surnames.getSize()) -1);
+        return surnames.getName(randomNumberGenerator.generate(surnames.getSize()) - 1);
     }
 
     private String generateRandomName() {
-        return names.getName(randomNumberGenerator.generate(names.getSize()) -1);
+        return names.getName(randomNumberGenerator.generate(names.getSize()) - 1);
     }
 }
